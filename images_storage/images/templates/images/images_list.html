@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <h1>Images list</h1>
+
+  {% for image in images %}
+  <img src="{{ MEDIA_URL }}/{{ image.src }}"/>
+  {% endfor %}
+{% endblock %}

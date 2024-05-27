@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Add image</h1>
+
+
+<!--
+    BORROWED CODE :
+    The following lines are based on the code from:
+    https://www.youtube.com/watch?v=6aQoW0TRXBk
+    We have borrowed the enctype attribute value.
+-->
+
+  <form class="forms" action="{% url 'images:upload' %}" method="POST" enctype="multipart/form-data">
+
+<!-- END OF BORROWED CODE -->
+
+    {% csrf_token %}
+    {{ form }}
+    <button class="form-submit">Submit</button>
+  </form>
+{% endblock %}

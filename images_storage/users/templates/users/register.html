@@ -1,0 +1,23 @@
+{#
+    BORROWED CODE :
+    The following lines are based on the code from:
+    https://github.com/gitdagray/django-course/blob/main/lesson12/myproject/users/templates/users/register.html
+    We have borrowed the logic for the user's registering.
+#}
+
+{% extends 'base.html' %}
+
+{% block title %}
+    Register a New User
+{% endblock %}
+
+{% block content %}
+    <h1>Register a New User</h1>
+    <form class="forms" action="{% url 'users:register' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button class="form-submit">Submit</button>
+    </form>
+{% endblock %}
+
+{# END OF BORROWED CODE #}

@@ -1,0 +1,26 @@
+{#
+    BORROWED CODE :
+    The following lines are based on the code from:
+    https://github.com/gitdagray/django-course/blob/main/lesson12/myproject/users/templates/users/login.html
+    We have borrowed the logic for the user's login.
+#}
+
+{% extends 'base.html' %}
+
+{% block title %}
+    User Login
+{% endblock %}
+
+{% block content %}
+    <h1>User Login</h1>
+    <form class="forms" action="{% url 'users:login' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}" />
+        {% endif %}
+        <button class="form-submit">Submit</button>
+    </form>
+{% endblock %}
+
+{# END OF BORROWED CODE #}
