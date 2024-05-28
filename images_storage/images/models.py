@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django_cleanup import cleanup
 
 
 class CATEGORIES(models.IntegerChoices):
@@ -17,8 +18,9 @@ class PROCESSES(models.IntegerChoices):
     TEST = 2, "test"
 
 
+@cleanup.select
 class Image(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    src = models.ImageField(upload_to='images_repository', verbose_name="Image")
+    src = models.ImageField(upload_to='images_repository/test', verbose_name="Image")
     category = models.IntegerField(null=True, blank=True, verbose_name="Category", choices=CATEGORIES.choices)
     process = models.IntegerField(verbose_name="Process", choices=PROCESSES.choices, default=PROCESSES.TEST)
