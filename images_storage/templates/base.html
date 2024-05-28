@@ -17,6 +17,7 @@
         {% endblock %}
     </title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{% static 'js/main.js' %}" defer></script>
 </head>
 <body>
@@ -25,6 +26,7 @@
         {% if user.is_authenticated %}
             <a href="{% url 'images:list' %}">Images list</a> |
             <a href="{% url 'images:upload' %}">Upload images</a> |
+            <a href="{% url 'images:delete' %}">Delete images</a> |
             <a href="{% url 'images:list_by_category' 0 %}">Buildings</a> |
             <a href="{% url 'images:list_by_category' 1 %}">Forest</a> |
             <a href="{% url 'images:list_by_category' 2 %}">Glacier</a> |

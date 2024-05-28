@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from images.forms import UploadForm
+from images.forms import DeleteFormSet, UploadForm
 from images.models import Image, CATEGORIES
 
 
@@ -25,3 +25,17 @@ def upload_images(request):
             form.save()
             return redirect("images:list")
     return render(request, "images/upload_images.html", {"form": UploadForm})
+
+
+def delete_images(request):
+    images = Image.objects.filter(user=request.user)
+    if request.method == "POST":
+        formset = DeleteFormSet(request.POST, queryset=images)
+        if formset.is_valid():
+            formset.save()
+            images = Image.objects.filter(user=request.user)
+    return render(
+        request,
+        "images/delete_images.html",
+        {"formset": DeleteFormSet(queryset=images)},
+    )

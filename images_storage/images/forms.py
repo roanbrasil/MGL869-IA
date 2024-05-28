@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import modelformset_factory
 from .models import Image
 
 
@@ -25,9 +26,28 @@ class UploadForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         if "user" in kwargs:
-            self.user = kwargs.pop('user')
+            self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
         for src in self.cleaned_data["images"]:
             Image.objects.create(user=self.user, src=src)
+
+
+class DeleteForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = "__all__"
+
+    delete = forms.BooleanField(required=False)
+
+    @property
+    def image_src(self):
+        return self.instance.src
+
+    def save(self, commit=True):
+        if bool(self.cleaned_data["delete"]):
+            self.instance.delete()
+
+
+DeleteFormSet = modelformset_factory(Image, form=DeleteForm, edit_only=True, extra=0)
