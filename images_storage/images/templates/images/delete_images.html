@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <h1>Delete images</h1>
+
+  <form class="forms" action="{% url 'images:delete' %}" method="POST" style="display: inline-block">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+    <img src="{{ MEDIA_URL }}/{{ form.image_src }}" width="150px" height="150px"/>
+    <div style="display: None">
+      {{ form.id }}
+      {{ form.user }}
+      {{ form.process }}
+    </div>
+    {{ form.delete }}
+    {% endfor %}
+    <br>
+    <br>
+    <button id="select-all" class="form-submit">Select all</button>
+    <button id="unselect-all" class="form-submit">Unselect all</button>
+    <button class="form-submit">Delete selected</button>
+  </form>
+{% endblock %}
