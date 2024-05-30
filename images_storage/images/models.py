@@ -21,6 +21,6 @@ class PROCESSES(models.IntegerChoices):
 @cleanup.select
 class Image(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    src = models.ImageField(upload_to='images_repository/test', verbose_name="Image")
+    src = models.ImageField(upload_to='images_repository', verbose_name="Image")
     category = models.IntegerField(null=True, blank=True, verbose_name="Category", choices=CATEGORIES.choices)
     process = models.IntegerField(verbose_name="Process", choices=PROCESSES.choices, default=PROCESSES.TEST)
