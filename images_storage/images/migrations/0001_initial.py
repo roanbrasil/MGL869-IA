@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name='Image',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('src', models.ImageField(upload_to='images/images_repository', verbose_name='Image')),
+                ('src', models.ImageField(upload_to='images/repository', verbose_name='Image')),
                 ('category', models.IntegerField(blank=True, choices=[(0, 'buildings'), (1, 'forest'), (2, 'glacier'), (3, 'mountain'), (4, 'sea'), (5, 'street')], null=True, verbose_name='Category')),
                 ('process', models.IntegerField(choices=[(0, 'training'), (1, 'validation'), (2, 'test')], default=2, verbose_name='Process')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),

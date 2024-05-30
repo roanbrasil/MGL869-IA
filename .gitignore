@@ -1,4 +1,4 @@
 .idea/
 db.sqlite3
-images_repository/
+**/images/repository/
 __pycache__
