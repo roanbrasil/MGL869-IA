@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect
 
 from images.forms import DeleteFormSet, UploadForm
-from images.models import Image, CATEGORIES
+from images.models import Image, CATEGORIES, PROCESSES
 
 
 def images_list(request):
-    images = Image.objects.filter(user=request.user)
+    images = Image.objects.filter(user=request.user, process=PROCESSES.TEST)
     return render(request, "images/images_list.html", {"images": images})
 
 
 def images_list_by_category(request, category):
-    images = Image.objects.filter(user=request.user, category=category)
+    images = Image.objects.filter(user=request.user, category=category, process=PROCESSES.TEST)
     return render(
         request,
         "images/images_list_by_category.html",
