@@ -34,7 +34,7 @@ def upload_images(request):
 
 
 def delete_images(request):
-    images = Image.objects.filter(user=request.user)
+    images = Image.objects.filter(user=request.user, process=PROCESSES.TEST)
     if request.method == "POST":
         formset = DeleteFormSet(request.POST, queryset=images)
         if formset.is_valid():
