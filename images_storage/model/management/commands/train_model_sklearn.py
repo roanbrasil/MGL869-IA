@@ -1,4 +1,5 @@
 import datetime
+import pytz
 
 from django.core.management.base import BaseCommand
 from images.models import Image, CATEGORIES, PROCESSES
@@ -32,31 +33,21 @@ class Command(BaseCommand):
             data = []
             labels = []
             images = Image.objects.filter(process=process)
-            len_images = img_width * img_width
             for image in images:
                 img = cv2.imread(image.src.path)
                 img = cv2.resize(img, (img_width, img_height))  # Resize
                 img = img / 255.0  # Normalize
-                flat_img = img.flatten()
-                data.append(flat_img)
+                data.append(img)
                 class_name = CATEGORIES(image.category).label
                 labels.append(class_name)
             # Convert labels to integers to use with the CNN.
             le = LabelEncoder()
             labels = le.fit_transform(labels)
-            columns = []
-            for i in range(len_images):
-                columns.append(f"red_{i}")
-                columns.append(f"green_{i}")
-                columns.append(f"blue_{i}")
-            df = pd.DataFrame(data, columns=columns)
-            labels = np.atleast_2d(labels).T
-            labels_df = pd.DataFrame(labels, columns=["class"])
-            df = df.join(labels_df)
+            df = pd.DataFrame(list(zip(data, labels)), columns=["image", "class"])
             return df
 
-        img_width = 50
-        img_height = 50
+        img_width = settings.IMAGE_WIDTH
+        img_height = settings.IMAGE_HEIGHT
 
         def load_train_data():
             train_imgs = read_imgs(PROCESSES.TRAINING, img_width, img_height)
@@ -73,7 +64,8 @@ class Command(BaseCommand):
         # ------------------------------
         print("Data shape:")
         print("-------------------")
-        print(train_data.iloc[:, :-1].shape)
+        print(train_data["image"].shape)
+        print(f"{len(train_data["image"])} x {img_width*img_height*3}")
         print("-------------------")
 
         # print train data first 5 rows
@@ -101,19 +93,21 @@ class Command(BaseCommand):
         clf = make_pipeline(StandardScaler(), LinearSVC(random_state=0, tol=1e-5))
 
         # Convert the 'image' column to a NumPy array
-        train_images = train_data.iloc[:, :-1]
+        train_images = np.stack(train_data["image"].values)
+        train_images = np.reshape(train_images, (len(train_images), img_width*img_height*3))
         train_labels = train_data["class"].values
 
-        valid_images = valid_data.iloc[:, :-1]
+        valid_images = np.stack(valid_data["image"].values)
+        valid_images = np.reshape(valid_images, (len(valid_images), img_width*img_height*3))
         valid_labels = valid_data["class"].values
 
-        a = datetime.datetime.now()
+        a = datetime.datetime.now(pytz.timezone("America/Montreal"))
         print(a)
 
         # Fit the model
         clf.fit(train_images, train_labels)
 
-        b = datetime.datetime.now()
+        b = datetime.datetime.now(pytz.timezone("America/Montreal"))
         print(b)
 
         print(f"Training time: {b - a}")
@@ -125,9 +119,17 @@ class Command(BaseCommand):
         print("-------------------")
         print(score)
         print("-------------------")
+        print(f"Image size: {img_width} x {img_height}")
+        print("-------------------")
 
         # # Save the model in .pkl format
         model_name = options.get("model_name")
         # model.save(settings.BASE_DIR / "model/repository" / f"{model_name}.keras")
         with open(settings.BASE_DIR / "model/repository" / f"{model_name}.pkl", "wb") as f:
             dump(clf, f, protocol=5)
+
+        """
+        from pickle import load
+        with open("filename.pkl", "rb") as f:
+            clf = load(f)
+        """

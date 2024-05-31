@@ -38,10 +38,3 @@ def classify(images: list[Image]) -> None:
     for i, category in enumerate(np.argmax(classes, axis=-1)):
         images[i].category = CATEGORIES(category)
         images[i].save()
-
-
-"""
-from pickle import load
-with open("filename.pkl", "rb") as f:
-    clf = load(f)
-"""
