@@ -22,21 +22,21 @@
 </head>
 <body>
     <nav>
-        <a href="/">Home</a> |
+        <a href="/">Home</a>
         {% if user.is_authenticated %}
-            <a href="{% url 'images:list' %}">Images list</a> |
-            <a href="{% url 'images:upload' %}">Upload images</a> |
-            <a href="{% url 'images:delete' %}">Delete images</a> |
-            <a href="{% url 'images:list_by_category' 0 %}">Buildings</a> |
-            <a href="{% url 'images:list_by_category' 1 %}">Forest</a> |
-            <a href="{% url 'images:list_by_category' 2 %}">Glacier</a> |
-            <a href="{% url 'images:list_by_category' 3 %}">Mountain</a> |
-            <a href="{% url 'images:list_by_category' 4 %}">Sea</a> |
-            <a href="{% url 'images:list_by_category' 5 %}">Street</a> |
+            <a href="{% url 'images:list' %}">Images list</a>
+            <a href="{% url 'images:upload' %}">Upload images</a>
+            <a href="{% url 'images:delete' %}">Delete images</a>
+            <a href="{% url 'images:list_by_category' 0 %}">Buildings</a>
+            <a href="{% url 'images:list_by_category' 1 %}">Forest</a>
+            <a href="{% url 'images:list_by_category' 2 %}">Glacier</a>
+            <a href="{% url 'images:list_by_category' 3 %}">Mountain</a>
+            <a href="{% url 'images:list_by_category' 4 %}">Sea</a>
+            <a href="{% url 'images:list_by_category' 5 %}">Street</a>
             <a href="#" onclick="submitLogoutForm()">Logout</a>
             <form id="logout-form" stype="display: None" action="{% url 'users:logout' %}" method="post">{% csrf_token %}</form>
         {% else %}
-            <a href="{% url 'users:register' %}">Register</a> |
+            <a href="{% url 'users:register' %}">Register</a>
             <a href="{% url 'users:login' %}">Login</a>
         {% endif %}
     </nav>
