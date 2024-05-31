@@ -40,8 +40,8 @@ class Command(BaseCommand):
             df = pd.DataFrame(list(zip(data, labels)), columns=["image", "class"])
             return df
 
-        img_width = 30
-        img_height = 30
+        img_width = settings.IMAGE_WIDTH
+        img_height = settings.IMAGE_HEIGHT
 
         def load_train_data():
             train_imgs = read_imgs(PROCESSES.TRAINING, img_width, img_height)

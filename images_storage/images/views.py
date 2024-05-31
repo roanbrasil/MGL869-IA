@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from images.forms import DeleteFormSet, UploadForm
 from images.models import Image, CATEGORIES, PROCESSES
+from model.classification import classify
 
 
 def images_list(request):
@@ -23,6 +24,11 @@ def upload_images(request):
         form = UploadForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             form.save()
+            # Classify the new uploaded images
+            uploaded_images = Image.objects.filter(
+                user=request.user, process=PROCESSES.TEST, category=None
+            )
+            classify(uploaded_images)
             return redirect("images:list")
     return render(request, "images/upload_images.html", {"form": UploadForm})
 

@@ -2,3 +2,7 @@
 db.sqlite3
 **/images/repository/
 __pycache__
+compile_requirements.sh
+Lib/
+Scripts/
+venv/
