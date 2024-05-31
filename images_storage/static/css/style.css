@@ -59,3 +59,33 @@
   flex: 33.33%;
   padding: 5px;
 }
+
+nav {
+  a {
+    background-color: lightgrey;
+    border-radius: 10px;
+    padding: 5px;
+  }
+
+  a:link {
+    color: black;
+  }
+
+  a:visited {
+    color: black;
+  }
+
+  a:hover {
+    color: black;
+    font-weight: bold;
+    background-color: darkgrey;
+  }
+
+  a:active {
+    color: red;
+  }
+
+  a:link, a:visited {
+    text-decoration: none;
+  }
+}
