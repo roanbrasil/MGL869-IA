@@ -1,8 +1,10 @@
+import json
+import requests
+from pathlib import Path
 from django.shortcuts import render, redirect
 
 from images.forms import DeleteFormSet, UploadForm
 from images.models import Image, CATEGORIES, PROCESSES
-from model.classification import classify
 
 
 def images_list(request):
@@ -19,6 +21,19 @@ def images_list_by_category(request, category):
     )
 
 
+def classify_images(images: list[Image]) -> None:
+    multiple_files = []
+    for image in images:
+        image_path = Path(image.src.path)
+        multiple_files.append(('images', (image_path.name, image_path.read_bytes(), 'image/jpq')))
+    url = "http://127.0.0.1:8000/classify_images"
+    response = requests.post(url, files=multiple_files)
+    if response.status_code == 200:
+        for i, category in enumerate(json.loads(response.content)["categories"]):
+            images[i].category = CATEGORIES(category)
+            images[i].save()
+
+
 def upload_images(request):
     if request.method == "POST":
         form = UploadForm(request.POST, request.FILES, user=request.user)
@@ -28,7 +43,7 @@ def upload_images(request):
             uploaded_images = Image.objects.filter(
                 user=request.user, process=PROCESSES.TEST, category=None
             )
-            classify(uploaded_images)
+            classify_images(uploaded_images)
             return redirect("images:list")
     return render(request, "images/upload_images.html", {"form": UploadForm})
 
