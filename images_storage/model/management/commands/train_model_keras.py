@@ -1,3 +1,7 @@
+import datetime
+import pytz
+import logging
+
 from django.core.management.base import BaseCommand
 from images.models import Image, CATEGORIES, PROCESSES
 from django.conf import settings
@@ -7,6 +11,13 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from sklearn.preprocessing import LabelEncoder
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(
+    filename=settings.BASE_DIR / "model/repository/training_keras.log",
+    level=logging.INFO,
+    format="%(message)s",
+)
 
 
 class Command(BaseCommand):
@@ -56,35 +67,44 @@ class Command(BaseCommand):
 
         # Data analysis
         # ------------------------------
-        print("Data shape:")
-        print("-------------------")
-        print(train_data["image"].shape)
-        print("-------------------")
+        logger.info("-------------------")
+        logger.info("Image size:")
+        logger.info("-------------------")
+        logger.info(f"{img_width} x {img_height}")
+        logger.info("-------------------")
+        logger.info("Data shape:")
+        logger.info("-------------------")
+        logger.info(f"{len(train_data['image'])} x {img_width*img_height*3}")
+        logger.info("-------------------")
 
-        # print train data first 5 rows
-        print("Train data first 5 rows:")
-        print("-------------------")
-        print(train_data.head())
-        print("-------------------")
+        # logger.info train data first 5 rows
+        logger.info("Train data first 5 rows:")
+        logger.info("-------------------")
+        logger.info(train_data.head())
+        logger.info("-------------------")
 
-        # print validation data first 5 rows
-        print("Validation data first 5 rows:")
-        print("-------------------")
+        # logger.info validation data first 5 rows
+        logger.info("Validation data first 5 rows:")
+        logger.info("-------------------")
 
         # Quantify the data
-        print("Train data class distribution:")
-        print("-------------------")
-        print(train_data["class"].value_counts())
-        print("-------------------")
+        logger.info("Train data class distribution:")
+        logger.info("-------------------")
+        logger.info(train_data["class"].value_counts())
+        logger.info("-------------------")
 
-        print("Validation data class distribution:")
-        print("-------------------")
-        print(valid_data["class"].value_counts())
-        print("-------------------")
+        logger.info("Validation data class distribution:")
+        logger.info("-------------------")
+        logger.info(valid_data["class"].value_counts())
+        logger.info("-------------------")
 
         # Model - CNN
         # ------------------------------
-        hiperparameters = {"batch_size": 32, "epochs": 5}
+        hiperparameters = {"batch_size": 32, "epochs": 20}
+
+        logger.info(f"Batch size: {hiperparameters['batch_size']}")
+        logger.info(f"Epochs: {hiperparameters['epochs']}")
+        logger.info("-------------------")
 
         # The CNN model has the following architecture:
         model = tf.keras.models.Sequential(
@@ -115,16 +135,30 @@ class Command(BaseCommand):
         valid_images = np.stack(valid_data["image"].values)
         valid_labels = valid_data["class"].values
 
+        a = datetime.datetime.now(pytz.timezone("America/Montreal"))
+        logger.info(a)
+
         # Fit the model
         model.fit(
             train_images,
             train_labels,
+            verbose=2,
             batch_size=hiperparameters["batch_size"],
             epochs=hiperparameters["epochs"],
         )
 
+        b = datetime.datetime.now(pytz.timezone("America/Montreal"))
+        logger.info(b)
+
+        logger.info(f"Training time: {b - a}")
+        logger.info("-------------------")
+
         # Evaluate the model
-        model.evaluate(valid_images, valid_labels)
+        eval_result = model.evaluate(valid_images, valid_labels, return_dict=True)
+        logger.info(f"Accuracy: {eval_result['accuracy']}")
+        logger.info(f"Validation loss: {eval_result['loss']}")
+        logger.info("-------------------")
+        logger.info("\n")
 
         # Save the model in .keras format
         model_name = options.get("model_name")

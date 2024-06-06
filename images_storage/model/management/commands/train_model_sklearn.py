@@ -1,5 +1,6 @@
 import datetime
 import pytz
+import logging
 
 from django.core.management.base import BaseCommand
 from images.models import Image, CATEGORIES, PROCESSES
@@ -13,6 +14,13 @@ from sklearn.svm import LinearSVC
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from pickle import dump
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(
+    filename=settings.BASE_DIR / "model/repository/training_sklearn.log",
+    level=logging.INFO,
+    format="%(message)s",
+)
 
 
 class Command(BaseCommand):
@@ -62,32 +70,36 @@ class Command(BaseCommand):
 
         # Data analysis
         # ------------------------------
-        print("Data shape:")
-        print("-------------------")
-        print(train_data["image"].shape)
-        print(f"{len(train_data["image"])} x {img_width*img_height*3}")
-        print("-------------------")
+        logger.info("-------------------")
+        logger.info("Image size:")
+        logger.info("-------------------")
+        logger.info(f"{img_width} x {img_height}")
+        logger.info("-------------------")
+        logger.info("Data shape:")
+        logger.info("-------------------")
+        logger.info(f"{len(train_data['image'])} x {img_width*img_height*3}")
+        logger.info("-------------------")
 
-        # print train data first 5 rows
-        print("Train data first 5 rows:")
-        print("-------------------")
-        print(train_data.head())
-        print("-------------------")
+        # logger.info train data first 5 rows
+        logger.info("Train data first 5 rows:")
+        logger.info("-------------------")
+        logger.info(train_data.head())
+        logger.info("-------------------")
 
-        # print validation data first 5 rows
-        print("Validation data first 5 rows:")
-        print("-------------------")
+        # logger.info validation data first 5 rows
+        logger.info("Validation data first 5 rows:")
+        logger.info("-------------------")
 
         # Quantify the data
-        print("Train data class distribution:")
-        print("-------------------")
-        print(train_data["class"].value_counts())
-        print("-------------------")
+        logger.info("Train data class distribution:")
+        logger.info("-------------------")
+        logger.info(train_data["class"].value_counts())
+        logger.info("-------------------")
 
-        print("Validation data class distribution:")
-        print("-------------------")
-        print(valid_data["class"].value_counts())
-        print("-------------------")
+        logger.info("Validation data class distribution:")
+        logger.info("-------------------")
+        logger.info(valid_data["class"].value_counts())
+        logger.info("-------------------")
 
         # LinearSVC model
         clf = make_pipeline(StandardScaler(), LinearSVC(random_state=0, tol=1e-5))
@@ -102,25 +114,25 @@ class Command(BaseCommand):
         valid_labels = valid_data["class"].values
 
         a = datetime.datetime.now(pytz.timezone("America/Montreal"))
-        print(a)
+        logger.info(a)
 
         # Fit the model
         clf.fit(train_images, train_labels)
 
         b = datetime.datetime.now(pytz.timezone("America/Montreal"))
-        print(b)
+        logger.info(b)
 
-        print(f"Training time: {b - a}")
+        logger.info(f"Training time: {b - a}")
 
         # Evaluate the model
         score = clf.score(valid_images, valid_labels)
 
-        print("LinearSVC Score:")
-        print("-------------------")
-        print(score)
-        print("-------------------")
-        print(f"Image size: {img_width} x {img_height}")
-        print("-------------------")
+        logger.info("LinearSVC Score:")
+        logger.info("-------------------")
+        logger.info(score)
+        logger.info("-------------------")
+        logger.info(f"Image size: {img_width} x {img_height}")
+        logger.info("-------------------")
 
         # # Save the model in .pkl format
         model_name = options.get("model_name")
