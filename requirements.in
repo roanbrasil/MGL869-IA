@@ -6,3 +6,4 @@ opencv-python
 django-cleanup
 pandas
 scikit-learn
+fastapi
