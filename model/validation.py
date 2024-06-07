@@ -64,30 +64,55 @@ print("Conversion terminée !")
 #Génération du schéma
 tfrecord_path = '/content/tfrecords/train.tfrecord'
 
+import tensorflow_data_validation as tfdv
+from tensorflow_metadata.proto.v0 import schema_pb2
+
 stats = tfdv.generate_statistics_from_tfrecord(data_location=tfrecord_path)
 
 schema = tfdv.infer_schema(stats)
 
-
+# width 
 width_feature = schema_pb2.Feature()
 width_feature.name = 'width'
 width_feature.type = schema_pb2.INT
-width_feature.int_domain.min = 30
-width_feature.int_domain.max = 30
+width_feature.int_domain.min = 50
+width_feature.int_domain.max = 50
+width_feature.presence.min_count = 1
+width_feature.presence.min_fraction = 1.0
 
-
+# height 
 height_feature = schema_pb2.Feature()
 height_feature.name = 'height'
 height_feature.type = schema_pb2.INT
-height_feature.int_domain.min = 30
-height_feature.int_domain.max = 30
+height_feature.int_domain.min = 50
+height_feature.int_domain.max = 50
+height_feature.presence.min_count = 1
+height_feature.presence.min_fraction = 1.0
+
+# label 
+label_feature = schema_pb2.Feature()
+label_feature.name = 'label'
+label_feature.type = schema_pb2.INT
+label_feature.int_domain.min = 0
+label_feature.int_domain.max = 5
+label_feature.int_domain.is_categorical = True
+label_feature.presence.min_count = 1
+label_feature.presence.min_fraction = 1.0
+
+# image 
+image_feature = schema_pb2.Feature()
+image_feature.name = 'image'
+image_feature.type = schema_pb2.BYTES
+image_feature.presence.min_count = 1
+image_feature.presence.min_fraction = 1.0
 
 
 schema.feature.add().CopyFrom(width_feature)
 schema.feature.add().CopyFrom(height_feature)
+schema.feature.add().CopyFrom(label_feature)
+schema.feature.add().CopyFrom(image_feature)
 
 tfdv.display_schema(schema)
-
 
 #Validation des données avec la taille de l'image
 anomalies = tfdv.validate_statistics(statistics=stats, schema=schema)
