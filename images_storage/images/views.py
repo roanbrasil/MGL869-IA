@@ -8,11 +8,13 @@ from images.models import Image, CATEGORIES, PROCESSES
 
 
 def images_list(request):
+    """Display all user images."""
     images = Image.objects.filter(user=request.user, process=PROCESSES.TEST)
     return render(request, "images/images_list.html", {"images": images})
 
 
 def images_list_by_category(request, category):
+    """Display the user images by category."""
     images = Image.objects.filter(user=request.user, category=category, process=PROCESSES.TEST)
     return render(
         request,
@@ -22,6 +24,7 @@ def images_list_by_category(request, category):
 
 
 def classify_images(images: list[Image]) -> None:
+    """Query the model API with the images for classification."""
     multiple_files = []
     for image in images:
         image_path = Path(image.src.path)
@@ -35,6 +38,7 @@ def classify_images(images: list[Image]) -> None:
 
 
 def upload_images(request):
+    """Upload the images to the database. Classify them by querying the model API"""
     if request.method == "POST":
         form = UploadForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
@@ -49,6 +53,7 @@ def upload_images(request):
 
 
 def delete_images(request):
+    """Delete the selected images from the database."""
     images = Image.objects.filter(user=request.user, process=PROCESSES.TEST)
     if request.method == "POST":
         formset = DeleteFormSet(request.POST, queryset=images)
