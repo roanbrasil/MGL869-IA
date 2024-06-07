@@ -11,6 +11,19 @@ from images.forms import UploadForm, DeleteFormSet
 fixtures_path = Path(os.path.realpath(__file__)).parent / "fixtures"
 
 
+def get_images_paths(images: list[Image]) -> list[str]:
+    paths = []
+    for image in images:
+        paths.append(image.src.path)
+    return paths
+
+
+def delete_test_images_from_disk(images_paths: list[str]) -> None:
+    for image_path in images_paths:
+        if os.path.exists(image_path):
+            os.remove(image_path)
+
+
 @pytest.mark.django_db()
 def test_can_add_multiple_images():
     """Test that multiple images can be added."""
@@ -30,6 +43,9 @@ def test_can_add_multiple_images():
     form.save()
     images = Image.objects.filter(user=user)
     assert images.count() == 2
+    # Delete images from database
+    images_paths = get_images_paths(images)
+    delete_test_images_from_disk(images_paths)
 
 
 @pytest.mark.django_db()
@@ -61,9 +77,11 @@ def test_can_delete_multiple_images():
         "form-1-process": "2",
         "form-1-delete": "on",
     }
-
+    images_paths = get_images_paths(images)
     formset = DeleteFormSet(data=data, queryset=images)
     assert formset.is_valid()
     formset.save()
     images = Image.objects.filter(user=user)
     assert images.count() == 0
+    # Delete images from database
+    delete_test_images_from_disk(images_paths)

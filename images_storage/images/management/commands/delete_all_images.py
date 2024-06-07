@@ -1,10 +1,9 @@
 from django.core.management.base import BaseCommand
-from images.models import Image, PROCESSES
+from images.models import Image
 
 
 class Command(BaseCommand):
-    help = "Import training and validation images"
+    help = "Delete all images from the database."
 
     def handle(self, *args, **options):
-        Image.objects.filter(process=PROCESSES.TRAINING).delete()
-        Image.objects.filter(process=PROCESSES.VALIDATION).delete()
+        Image.objects.all().delete()
