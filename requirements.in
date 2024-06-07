@@ -7,3 +7,5 @@ django-cleanup
 pandas
 scikit-learn
 fastapi
+pytest
+pytest-django

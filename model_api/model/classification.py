@@ -29,8 +29,7 @@ def read_images(images: list[bytes], img_width: int, img_height: int) -> np.ndar
 
 
 def classify(images: list[bytes]) -> list[int]:
-    test_images = read_images(images, IMAGE_WIDTH, IMAGE_HEIGHT)
-    classes = model(test_images)
+    classes = model(read_images(images, IMAGE_WIDTH, IMAGE_HEIGHT))
     categories = []
     for i, category in enumerate(np.argmax(classes, axis=-1)):
         categories.append(int(category))

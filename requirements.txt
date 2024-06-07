@@ -73,6 +73,8 @@ idna==3.7
     #   email-validator
     #   httpx
     #   requests
+iniconfig==2.0.0
+    # via pytest
 jinja2==3.1.4
     # via fastapi
 joblib==1.4.2
@@ -120,11 +122,15 @@ optree==0.11.0
 orjson==3.10.3
     # via fastapi
 packaging==24.0
-    # via tensorflow
+    # via
+    #   pytest
+    #   tensorflow
 pandas==2.2.2
     # via -r requirements.in
 pillow==10.3.0
     # via -r requirements.in
+pluggy==1.5.0
+    # via pytest
 protobuf==4.25.3
     # via
     #   tensorboard
@@ -135,6 +141,12 @@ pydantic-core==2.18.4
     # via pydantic
 pygments==2.18.0
     # via rich
+pytest==8.2.2
+    # via
+    #   -r requirements.in
+    #   pytest-django
+pytest-django==4.8.0
+    # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via pandas
 python-dotenv==1.0.1
