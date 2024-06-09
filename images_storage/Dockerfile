@@ -1,5 +1,5 @@
-# Use an image oficial base from Python 3.12
-FROM python:3.12
+# Use an image oficial base from Python 3.10
+FROM python:3.10
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
