@@ -1,0 +1,7 @@
+tensorflow
+keras
+opencv-python
+pandas
+scikit-learn
+fastapi
+pytest
