@@ -9,6 +9,8 @@ absl-py==2.1.0
     #   keras
     #   tensorboard
     #   tensorflow
+alembic==1.13.1
+    # via optuna
 annotated-types==0.7.0
     # via pydantic
 anyio==4.4.0
@@ -31,6 +33,12 @@ click==8.1.7
     # via
     #   typer
     #   uvicorn
+colorlog==6.8.2
+    # via optuna
+contourpy==1.2.1
+    # via matplotlib
+cycler==0.12.1
+    # via matplotlib
 django==5.0.6
     # via -r requirements.in
 django-cleanup==8.1.0
@@ -45,10 +53,14 @@ fastapi-cli==0.0.4
     # via fastapi
 flatbuffers==24.3.25
     # via tensorflow
+fonttools==4.53.0
+    # via matplotlib
 gast==0.5.4
     # via tensorflow
 google-pasta==0.2.0
     # via tensorflow
+greenlet==3.0.3
+    # via sqlalchemy
 grpcio==1.64.1
     # via
     #   tensorboard
@@ -83,8 +95,12 @@ keras==3.3.3
     # via
     #   -r requirements.in
     #   tensorflow
+kiwisolver==1.4.5
+    # via matplotlib
 libclang==18.1.1
     # via tensorflow
+mako==1.3.5
+    # via alembic
 markdown==3.6
     # via tensorboard
 markdown-it-py==3.0.0
@@ -92,7 +108,12 @@ markdown-it-py==3.0.0
 markupsafe==2.1.5
     # via
     #   jinja2
+    #   mako
     #   werkzeug
+matplotlib==3.9.0
+    # via
+    #   -r requirements.in
+    #   seaborn
 mdurl==0.1.2
     # via markdown-it-py
 ml-dtypes==0.3.2
@@ -103,14 +124,18 @@ namex==0.0.8
     # via keras
 numpy==1.26.4
     # via
+    #   contourpy
     #   h5py
     #   keras
+    #   matplotlib
     #   ml-dtypes
     #   opencv-python
     #   opt-einsum
+    #   optuna
     #   pandas
     #   scikit-learn
     #   scipy
+    #   seaborn
     #   tensorboard
     #   tensorflow
 opencv-python==4.10.0.82
@@ -119,16 +144,24 @@ opt-einsum==3.3.0
     # via tensorflow
 optree==0.11.0
     # via keras
+optuna==3.6.1
+    # via -r requirements.in
 orjson==3.10.3
     # via fastapi
 packaging==24.0
     # via
+    #   matplotlib
+    #   optuna
     #   pytest
     #   tensorflow
 pandas==2.2.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   seaborn
 pillow==10.3.0
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   matplotlib
 pluggy==1.5.0
     # via pytest
 protobuf==4.25.3
@@ -141,6 +174,14 @@ pydantic-core==2.18.4
     # via pydantic
 pygments==2.18.0
     # via rich
+pyparsing==3.1.2
+    # via matplotlib
+pyqt5==5.15.10
+    # via -r requirements.in
+pyqt5-qt5==5.15.2
+    # via pyqt5
+pyqt5-sip==12.13.0
+    # via pyqt5
 pytest==8.2.2
     # via
     #   -r requirements.in
@@ -148,7 +189,9 @@ pytest==8.2.2
 pytest-django==4.8.0
     # via -r requirements.in
 python-dateutil==2.9.0.post0
-    # via pandas
+    # via
+    #   matplotlib
+    #   pandas
 python-dotenv==1.0.1
     # via uvicorn
 python-multipart==0.0.9
@@ -156,7 +199,9 @@ python-multipart==0.0.9
 pytz==2024.1
     # via pandas
 pyyaml==6.0.1
-    # via uvicorn
+    # via
+    #   optuna
+    #   uvicorn
 requests==2.32.3
     # via tensorflow
 rich==13.7.1
@@ -167,6 +212,8 @@ scikit-learn==1.5.0
     # via -r requirements.in
 scipy==1.13.1
     # via scikit-learn
+seaborn==0.13.2
+    # via -r requirements.in
 shellingham==1.5.4
     # via typer
 six==1.16.0
@@ -180,6 +227,10 @@ sniffio==1.3.1
     # via
     #   anyio
     #   httpx
+sqlalchemy==2.0.30
+    # via
+    #   alembic
+    #   optuna
 sqlparse==0.5.0
     # via django
 starlette==0.37.2
@@ -194,14 +245,20 @@ termcolor==2.4.0
     # via tensorflow
 threadpoolctl==3.5.0
     # via scikit-learn
+tqdm==4.66.4
+    # via
+    #   -r requirements.in
+    #   optuna
 typer==0.12.3
     # via fastapi-cli
-typing-extensions==4.12.1
+typing-extensions==4.12.2
     # via
+    #   alembic
     #   fastapi
     #   optree
     #   pydantic
     #   pydantic-core
+    #   sqlalchemy
     #   tensorflow
     #   typer
 tzdata==2024.1

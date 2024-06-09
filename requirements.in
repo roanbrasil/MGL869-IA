@@ -1,11 +1,20 @@
+# images_storage
 Django
+django-cleanup
+pytest
+pytest-django
+
+# model_api
 pillow
 tensorflow
 keras
 opencv-python
-django-cleanup
 pandas
 scikit-learn
 fastapi
 pytest
-pytest-django
+seaborn
+matplotlib
+PyQt5
+optuna
+tqdm

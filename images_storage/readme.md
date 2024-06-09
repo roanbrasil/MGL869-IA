@@ -1,8 +1,8 @@
-# How to install and run `images_storage`
+# How to install and run `model_api`
 
 ## Create virtual environment:
 
-Go to the `images_storage` project root and run the following commands (assuming a Linux OS with Python and Pip installed):
+Go to the `model_api` project root and run the following commands (assuming a Linux OS with Python and Pip installed):
 
 ```bash
 $ pip install virtualenv
@@ -16,8 +16,26 @@ $ source <virtual-environment-name>/bin/activate
 $ pip install -r requirements.txt
 ```
 
-## Run the FastAPI server
+## Make Django migrations
 
 ```bash
-$ fastapi dev main.py
+$ python images_storage/manage.py migrate
+```
+
+## Create superuser
+
+```bash
+$ python images_storage/manage.py createsuperuser
+```
+
+## Run the Django Server
+
+```bash
+$ python images_storage/manage.py runserver
+```
+
+## Delete all images from database
+
+```bash
+$ python images_storage/manage.py delete_all_images
 ```
