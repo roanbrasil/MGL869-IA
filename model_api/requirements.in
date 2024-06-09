@@ -12,3 +12,5 @@ tensorflow-data-validation[visualization]
 tensorrt
 tensorflow-metadata
 pillow
+PyQt5
+PySide2
