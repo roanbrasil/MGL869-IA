@@ -1,6 +1,6 @@
 .idea/
 db.sqlite3
-**/images/repository/
+**/images/repository/*.jpg
 __pycache__
 compile_requirements.sh
 Lib/
