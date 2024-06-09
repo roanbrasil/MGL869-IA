@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  model_api:
+    image: model_api
+    container_name: 'model_api'
+    build: .
+    ports:
+      - "8001:8000"
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    volumes:
+      - .:/app
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+    external: true

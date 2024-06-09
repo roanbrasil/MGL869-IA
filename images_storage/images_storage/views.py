@@ -9,7 +9,7 @@ def home(request):
 
 
 def hello(request):
-    url = "http://127.0.0.1:8000/hello"
+    url = "http://model_api:8000/hello"
     response = requests.get(url)
     if response.status_code == 200:
         return HttpResponse(f"Hello {json.loads(response.content)["Hello"]}")

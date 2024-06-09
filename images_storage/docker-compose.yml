@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  images_storage:
+    image: images_storage
+    container_name: 'images_storage'
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    networks:
+      - app_network
+#    depends_on:
+#      - model_api
+
+networks:
+  app_network:
+    driver: bridge
+    external: true
