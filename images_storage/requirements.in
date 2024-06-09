@@ -1,4 +1,5 @@
 Django
+requests
 pillow
 django-cleanup
 pytest-django

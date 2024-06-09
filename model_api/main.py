@@ -10,3 +10,8 @@ app = FastAPI()
 @app.post("/classify_images")
 def classify_images(images: Annotated[list[bytes], File()]):
     return {"categories": classify(images)}
+
+
+@app.get("/hello")
+def hello():
+    return {"Hello": "World!!!"}
