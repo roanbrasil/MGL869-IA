@@ -7,3 +7,8 @@ fastapi
 pytest
 tqdm
 matplotlib
+tensorflow-data-validation
+tensorflow-data-validation[visualization]
+tensorrt
+tensorflow-metadata
+pillow
