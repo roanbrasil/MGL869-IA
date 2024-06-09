@@ -6,10 +6,16 @@
 #
 asgiref==3.8.1
     # via django
+certifi==2024.6.2
+    # via requests
+charset-normalizer==3.3.2
+    # via requests
 django==5.0.6
     # via -r requirements.in
 django-cleanup==8.1.0
     # via -r requirements.in
+idna==3.7
+    # via requests
 iniconfig==2.0.0
     # via pytest
 packaging==24.0
@@ -22,23 +28,9 @@ pytest==8.2.2
     # via pytest-django
 pytest-django==4.8.0
     # via -r requirements.in
+requests==2.32.3
+    # via -r requirements.in
 sqlparse==0.5.0
     # via django
-
-#######
-requests==2.32.3
 urllib3==2.2.1
     # via requests
-certifi==2024.6.2
-    # via
-    #   httpcore
-    #   httpx
-    #   requests
-charset-normalizer==3.3.2
-    # via requests
-idna==3.7
-    # via
-    #   anyio
-    #   email-validator
-    #   httpx
-    #   requests

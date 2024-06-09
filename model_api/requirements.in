@@ -5,3 +5,5 @@ pandas
 scikit-learn
 fastapi
 pytest
+tqdm
+matplotlib

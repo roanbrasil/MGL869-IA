@@ -1,10 +1,8 @@
 import os
 import cv2
 import numpy as np
-import pandas as pd
 import keras
 from pathlib import Path
-from sklearn.preprocessing import LabelEncoder
 
 model_name = "production_model_50x50_batch_64_epochs_10"
 
