@@ -4,7 +4,7 @@ import numpy as np
 import keras
 from pathlib import Path
 
-model_name = "production_model_50x50_batch_64_epochs_10"
+model_name = "production_model_50x50_batch_96_epochs_19"
 
 classification_module_path = os.path.realpath(__file__)
 
