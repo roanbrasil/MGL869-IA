@@ -12,11 +12,8 @@ from tensorflow.keras.layers import (
     Dense,
     Input,
 )
-import matplotlib
 import matplotlib.pyplot as plt
 from generate_datasets import load_data
-
-matplotlib.use("Qt5Agg")
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("--files_root", action="store", dest="files_root", type=str)
@@ -33,8 +30,8 @@ test_path = file_root / "seg_pred"  # mettre ici chemin vers dossier test
 
 img_width = 50
 img_height = 50
-batch_size = 256
-epoch_num = 14
+batch_size = 96
+epoch_num = 15
 
 # Préparation des datasets
 train_x, train_y = load_data(train_path, img_width, img_height)
