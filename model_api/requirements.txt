@@ -11,6 +11,8 @@ absl-py==1.4.0
     #   tensorflow-data-validation
     #   tensorflow-metadata
     #   tfx-bsl
+alembic==1.13.1
+    # via optuna
 annotated-types==0.7.0
     # via pydantic
 anyio==4.4.0
@@ -49,6 +51,8 @@ click==8.1.7
     #   uvicorn
 cloudpickle==2.2.1
     # via apache-beam
+colorlog==6.8.2
+    # via optuna
 contourpy==1.2.1
     # via matplotlib
 crcmod==1.7
@@ -198,6 +202,8 @@ googleapis-common-protos[grpc]==1.63.1
     #   google-api-core
     #   grpc-google-iam-v1
     #   grpcio-status
+greenlet==3.0.3
+    # via sqlalchemy
 grpc-google-iam-v1==0.13.0
     # via
     #   google-cloud-bigtable
@@ -279,6 +285,8 @@ kiwisolver==1.4.5
     # via matplotlib
 libclang==18.1.1
     # via tensorflow
+mako==1.3.5
+    # via alembic
 markdown==3.6
     # via tensorboard
 markdown-it-py==3.0.0
@@ -286,6 +294,7 @@ markdown-it-py==3.0.0
 markupsafe==2.1.5
     # via
     #   jinja2
+    #   mako
     #   werkzeug
 matplotlib==3.9.0
     # via -r requirements.in
@@ -304,6 +313,7 @@ numpy==1.26.4
     #   ml-dtypes
     #   opencv-python
     #   opt-einsum
+    #   optuna
     #   pandas
     #   pyarrow
     #   scikit-learn
@@ -323,18 +333,21 @@ opencv-python==4.10.0.82
     # via -r requirements.in
 opt-einsum==3.3.0
     # via tensorflow
+optuna==3.6.1
+    # via -r requirements.in
 orjson==3.10.3
     # via
     #   apache-beam
     #   fastapi
 overrides==7.7.0
     # via google-cloud-pubsublite
-packaging==24.0
+packaging==24.1
     # via
     #   apache-beam
     #   google-cloud-aiplatform
     #   google-cloud-bigquery
     #   matplotlib
+    #   optuna
     #   pytest
     #   tensorflow
 pandas==1.5.3
@@ -439,14 +452,6 @@ pyparsing==3.1.2
     #   httplib2
     #   matplotlib
     #   pydot
-pyqt5==5.15.10
-    # via -r requirements.in
-pyqt5-qt5==5.15.2
-    # via pyqt5
-pyqt5-sip==12.13.0
-    # via pyqt5
-pyside2==5.15.2.1
-    # via -r requirements.in
 pytest==8.2.2
     # via -r requirements.in
 python-dateutil==2.9.0.post0
@@ -464,7 +469,9 @@ pytz==2024.1
     #   apache-beam
     #   pandas
 pyyaml==6.0.1
-    # via uvicorn
+    # via
+    #   optuna
+    #   uvicorn
 redis==5.0.5
     # via apache-beam
 referencing==0.35.1
@@ -505,8 +512,6 @@ shapely==2.0.4
     # via google-cloud-aiplatform
 shellingham==1.5.4
     # via typer
-shiboken2==5.15.2.1
-    # via pyside2
 six==1.16.0
     # via
     #   astunparse
@@ -524,6 +529,10 @@ sniffio==1.3.1
     # via
     #   anyio
     #   httpx
+sqlalchemy==2.0.30
+    # via
+    #   alembic
+    #   optuna
 sqlparse==0.5.0
     # via google-cloud-spanner
 starlette==0.37.2
@@ -551,10 +560,6 @@ tensorflow-metadata==1.15.0
     #   tfx-bsl
 tensorflow-serving-api==2.15.1
     # via tfx-bsl
-tensorrt==10.0.1
-    # via -r requirements.in
-tensorrt-cu12==10.0.1
-    # via tensorrt
 termcolor==2.4.0
     # via tensorflow
 tfx-bsl==1.15.1
@@ -564,7 +569,9 @@ threadpoolctl==3.5.0
 tomli==2.0.1
     # via pytest
 tqdm==4.66.4
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   optuna
 traitlets==5.14.3
     # via
     #   ipython
@@ -573,12 +580,14 @@ typer==0.12.3
     # via fastapi-cli
 typing-extensions==4.12.2
     # via
+    #   alembic
     #   anyio
     #   apache-beam
     #   fastapi
     #   optree
     #   pydantic
     #   pydantic-core
+    #   sqlalchemy
     #   tensorflow
     #   typer
     #   uvicorn

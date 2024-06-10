@@ -6,5 +6,3 @@ compile_requirements.sh
 Lib/
 Scripts/
 venv/
-test_linearsvc.py
-test_cnn.py

@@ -10,13 +10,10 @@ from tensorflow.keras.layers import (
     MaxPooling2D,
     Flatten,
     Dense,
-    Rescaling,
     Input,
 )
-import matplotlib
 import matplotlib.pyplot as plt
-
-matplotlib.use("Qt5Agg")
+from generate_datasets import load_data
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("--files_root", action="store", dest="files_root", type=str)
@@ -33,23 +30,12 @@ test_path = file_root / "seg_pred"  # mettre ici chemin vers dossier test
 
 img_width = 50
 img_height = 50
-batch_size = 160
-epoch_num = 11
+batch_size = 96
+epoch_num = 19
 
-# Préparation des générateurs
-train_generator = tf.keras.utils.image_dataset_from_directory(
-    train_path,
-    image_size=(img_width, img_height),
-    batch_size=batch_size,
-    label_mode="int",
-)
-
-validation_generator = tf.keras.utils.image_dataset_from_directory(
-    validation_path,
-    image_size=(img_width, img_height),
-    batch_size=batch_size,
-    label_mode="int",
-)
+# Préparation des datasets
+train_x, train_y = load_data(train_path, img_width, img_height)
+valid_x, valid_y = load_data(train_path, img_width, img_height)
 
 # Modèle - CNN
 # ------------------------------
@@ -59,7 +45,6 @@ hiperparameters = {"batch_size": batch_size, "epochs": epoch_num}
 model = tf.keras.models.Sequential(
     [
         Input(shape=(img_width, img_height, 3)),
-        Rescaling(1.0 / 255),
         Conv2D(32, (3, 3), activation="relu"),
         MaxPooling2D(2, 2),
         Conv2D(64, (3, 3), activation="relu"),
@@ -79,8 +64,9 @@ a = datetime.datetime.now(pytz.timezone("America/Montreal"))
 print(a)
 # Entraîner le modèle
 history = model.fit(
-    train_generator,
-    validation_data=validation_generator,
+    x=train_x,
+    y=train_y,
+    validation_data=(valid_x, valid_y),
     batch_size=batch_size,
     epochs=hiperparameters["epochs"],
 )
@@ -89,7 +75,7 @@ print(b)
 
 print(f"Training time: {b - a}")
 # Évaluer le modèle
-loss, accuracy = model.evaluate(validation_generator)
+loss, accuracy = model.evaluate(x=valid_x, y=valid_y)
 print(f"Loss: {loss}")
 print(f"Accuracy: {accuracy}")
 
