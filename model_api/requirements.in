@@ -8,5 +8,6 @@ pytest
 tqdm
 matplotlib
 pillow
-PyQt5
-PySide2
+optuna
+tensorflow-data-validation[visualization]
+tensorflow-metadata

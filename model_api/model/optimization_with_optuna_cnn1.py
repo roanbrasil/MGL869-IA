@@ -10,9 +10,9 @@ from tensorflow.keras.layers import (
     MaxPooling2D,
     Flatten,
     Dense,
-    Rescaling,
     Input,
 )
+from generate_datasets import load_data
 
 # Installation bibliothèque suivantes
 #!pip install --upgrade pip
@@ -40,22 +40,11 @@ def create_model(trial):
     batch_size = trial.suggest_int("batch_size", 32, 256, step=32)
     epochs = trial.suggest_int("epochs", 5, 20)
 
-    # Préparation des générateurs
-    train_generator = tf.keras.utils.image_dataset_from_directory(
-        train_path,
-        image_size=(img_width, img_height),
-        batch_size=batch_size,
-        label_mode="int",
-    )
+    # Préparation des datasets
+    train_x, train_y = load_data(train_path, img_width, img_height)
+    valid_x, valid_y = load_data(train_path, img_width, img_height)
 
-    validation_generator = tf.keras.utils.image_dataset_from_directory(
-        validation_path,
-        image_size=(img_width, img_height),
-        batch_size=batch_size,
-        label_mode="int",
-    )
-
-    if len(train_generator) == 0 or len(validation_generator) == 0:
+    if len(train_x) == 0 or len(valid_x) == 0:
         raise ValueError(
             "Les générateurs d'images sont vides. Vérifiez les chemins d'accès aux répertoires d'images."
         )
@@ -63,7 +52,6 @@ def create_model(trial):
     model = tf.keras.models.Sequential(
         [
             Input(shape=(img_width, img_height, 3)),
-            Rescaling(1.0 / 255),
             Conv2D(32, (3, 3), activation="relu"),
             MaxPooling2D(2, 2),
             Conv2D(64, (3, 3), activation="relu"),
@@ -83,8 +71,9 @@ def create_model(trial):
     # Entraînement modèle et mesurer le temps d'entraînement
     start_train_time = datetime.datetime.now(pytz.timezone("America/Montreal"))
     history = model.fit(
-        train_generator,
-        validation_data=validation_generator,
+        x=train_x,
+        y=train_y,
+        validation_data=(valid_x, valid_y),
         batch_size=batch_size,
         epochs=epochs,
         verbose=0,
@@ -94,7 +83,7 @@ def create_model(trial):
 
     # Évaluation le modèle sur l'ensemble de test et mesure le temps d'inférence
     start_inference_time = datetime.datetime.now(pytz.timezone("America/Montreal"))
-    loss, accuracy = model.evaluate(validation_generator, verbose=0)
+    loss, accuracy = model.evaluate(x=valid_x, y=valid_y, verbose=0)
     end_inference_time = datetime.datetime.now(pytz.timezone("America/Montreal"))
     inference_time = end_inference_time - start_inference_time
 
