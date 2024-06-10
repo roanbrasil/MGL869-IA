@@ -29,7 +29,7 @@ def classify_images(images: list[Image]) -> None:
     for image in images:
         image_path = Path(image.src.path)
         multiple_files.append(('images', (image_path.name, image_path.read_bytes(), 'image/jpq')))
-    url = "http://model_api:8000/classify_images"
+    url = "http://127.0.0.1:8000/classify_images"
     response = requests.post(url, files=multiple_files)
     if response.status_code == 200:
         for i, category in enumerate(json.loads(response.content)["categories"]):
