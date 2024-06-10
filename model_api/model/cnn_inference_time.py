@@ -30,7 +30,7 @@ def read_images(images: list[bytes], img_width: int, img_height: int) -> np.ndar
 # Préparation des datasets
 img_dataset = read_images([img_path.read_bytes()], img_width, img_height)
 
-model_name = "production_model_50x50_batch_96_epochs_19"
+model_name = "cnn1_model_50x50_batch_96_epochs_19"
 
 classification_module_path = os.path.realpath(__file__)
 
