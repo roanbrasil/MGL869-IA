@@ -24,10 +24,29 @@ $ fastapi dev main.py
 
 # Running model files
 
-## Data initialization
+## Train CNN1 Model
 
+The model is stored in the `model/repository` folder with the `<model_name>.keras`.
 The `files_root` is the path of the directory containing the folders `seg_train`, `seg_test` and `seg_pred`.
 
 ```bash
-$ python model/data_initialize.py --files_root <path_to_images_directory>
+$ python model/train_cnn1_mode.py --model_name <model_name> --files_root <path_to_images_directory>
+```
+
+## Train CNN2 Model
+
+The model is stored in the `model/repository` folder with the `<model_name>.keras`.
+The `files_root` is the path of the directory containing the folders `seg_train`, `seg_test` and `seg_pred`.
+
+```bash
+$ python model/train_cnn2_mode.py --model_name <model_name> --files_root <path_to_images_directory>
+```
+
+## Train LinearSVC Model
+
+The model is stored in the `model/repository` folder with the `<model_name>.pkl`.
+The `files_root` is the path of the directory containing the folders `seg_train`, `seg_test` and `seg_pred`.
+
+```bash
+$ python model/train_linear_svc.py --model_name <model_name> --files_root <path_to_images_directory>
 ```
